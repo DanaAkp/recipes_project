@@ -10,3 +10,5 @@ starlette==0.19.1
 typing_extensions==4.2.0
 uvicorn==0.17.6
 lxml==4.8.0
+SQLAlchemy==1.4.37
+databases==0.6.0
