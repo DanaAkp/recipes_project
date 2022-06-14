@@ -46,7 +46,12 @@ if __name__ == '__main__':
     # ingredients = [buf[0].text]
     # print()
 
-    buf = tree.xpath("//div[@class='field field-type-text field-field-recipe-kpfc']")
+    buf = tree.xpath("//div[@class='field field-type-text field-field-recipe-kpfc']//p")
     print()
+    calories = buf[1].text_content()  # 'Калории: 101.1 ккал.'
+    protein = buf[2].text_content()  # 'Белки: 4.1 гр.'
+    fat = buf[3].text_content()  # 'Жиры: 4.3 гр.'
+    uglev = buf[4].text_content()  # 'Углеводы: 12 гр.'
 
-    buf = tree.xpath("//div[@class='recipes-portions']")
+    buf = tree.xpath("//div[@class='recipes-portions']//span")
+    portions = buf[0].text_content()
