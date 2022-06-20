@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from connect_to_db import DBConnect
+from database.connect_to_db import DBConnect
 
 app = FastAPI()
 
@@ -10,8 +10,6 @@ async def startup_event():
     pass
 
 db = DBConnect("sqlite:///test.db")
-
-from models import product, recipe_product, element_product, recipe
 
 db.metadata.create_all(bind=db.engine)
 

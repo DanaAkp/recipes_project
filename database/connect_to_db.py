@@ -15,18 +15,6 @@ class DBConnect:
         self.Base = declarative_base(bind=self.engine)
         self.connect = self.engine.connect()
 
-    def get_all(self, entity: table):
-        return self.connect.execute(entity.select()).fetchall()
-
-    def add(self, values: dict, entity: table) -> int:
-        ins = entity.insert().values(values)
-        r = self.connect.execute(ins)
-        return r.rowcount
-
-    def add_from_list(self, values: List[dict], entity: table) -> int:
-        r = self.connect.execute(insert(entity), values)
-        return r.rowcount
-
 
 # region example
 # db = DBConnect("sqlite:///test.db")
