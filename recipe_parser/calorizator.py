@@ -7,8 +7,9 @@ class Calorizator(AbstractRecipeParser):
     CATEGORIES = ['salads', 'sandwiches', 'soups', 'garnish', 'sauces', 'desserts', 'cakes', 'drinks', 'snacks']
     BASE_URL = 'https://calorizator.ru'
 
-    def parse_category(self, category: str) -> List:
-        tree = self.get_html_tree_from_url(f'{self.BASE_URL}/recipes/category/{category}')
+    @classmethod
+    def parse_category(cls, category: str) -> List:
+        tree = cls.get_html_tree_from_url(f'{cls.BASE_URL}/recipes/category/{category}')
         list_recipes_tree = tree.xpath("//td[@class='views-field views-field-title active']")
 
         recipe_links = []
@@ -17,9 +18,10 @@ class Calorizator(AbstractRecipeParser):
             recipe_links.append(buf_a[0].get('href'))
         return recipe_links
 
-    def get_recipe(self, url_for_recipe_page: str) -> dict:
-        url = f'{self.BASE_URL}{url_for_recipe_page}'
-        tree = self.get_html_tree_from_url(url)
+    @classmethod
+    def get_recipe(cls, url_for_recipe_page: str) -> dict:
+        url = f'{cls.BASE_URL}{url_for_recipe_page}'
+        tree = cls.get_html_tree_from_url(url)
         recipe_tree = tree.xpath("//div[@itemprop='recipeInstructions']//div/div/ol//li")
         recipe_steps = ''
         for number, step in enumerate(recipe_tree):
