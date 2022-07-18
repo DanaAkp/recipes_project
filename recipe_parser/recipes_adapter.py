@@ -6,6 +6,7 @@ from lxml import html
 
 
 class AbstractRecipeParser(ABC):
+    PRODUCT_CATEGORIES: List[str]
     CATEGORIES: List[str]
     BASE_URL: str
 

@@ -4,7 +4,34 @@ from recipe_parser.recipes_adapter import AbstractRecipeParser
 
 
 class Calorizator(AbstractRecipeParser):
-    CATEGORIES = ['salads', 'sandwiches', 'soups', 'garnish', 'sauces', 'desserts', 'cakes', 'drinks', 'snacks']
+    PRODUCT_CATEGORIES = [
+        'mushroom',
+        'cereals',
+        'butter',
+        'milk',
+        'meal',
+        'beef',
+        'vegetable',
+        'nut',
+        'sea',
+        'cheese',
+        'raw',
+        'fruit',
+        'bread',
+        'berry',
+        'egg',
+    ]
+    CATEGORIES = [
+        'salads',
+        'sandwiches',
+        'soups',
+        'garnish',
+        'sauces',
+        'desserts',
+        'cakes',
+        'drinks',
+        'snacks'
+    ]
     BASE_URL = 'https://calorizator.ru'
 
     @classmethod
@@ -66,3 +93,7 @@ class Calorizator(AbstractRecipeParser):
             portions=portions,
             ingredients=ingredients
         )
+
+    @classmethod
+    def get_products(cls, category: str) -> List:
+        pass
