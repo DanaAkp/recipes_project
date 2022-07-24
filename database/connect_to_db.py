@@ -1,7 +1,7 @@
 from typing import List
 
 import sqlalchemy
-from sqlalchemy import Column, Table, insert, table
+from sqlalchemy import Column, Table, insert, table, select, and_
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy.orm import declarative_base
@@ -14,6 +14,26 @@ class DBConnect:
         self.metadata = sqlalchemy.schema.MetaData()
         self.Base = declarative_base(bind=self.engine)
         self.connect = self.engine.connect()
+
+    def get_all(self, entity: table):
+        return self.connect.execute(entity.select()).fetchall()
+
+    def add(self, values: dict, entity: table) -> int:
+        ins = entity.insert().values(values)
+        r = self.connect.execute(ins)
+        return r.rowcount
+
+    def add_from_list(self, values: List[dict], entity: table) -> int:
+        r = self.connect.execute(insert(entity), values)
+        return r.rowcount
+
+    def get_by_filters(self, entity: table, filters):
+        s = select([entity]).where(and_(**filters))
+        r = self.connect.execute(s)
+        return r.fetchall()
+
+    def remove_item(self, entity: table, ):
+        pass
 
 
 # region example
