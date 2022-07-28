@@ -1,7 +1,7 @@
 from typing import List
 
 import sqlalchemy
-from sqlalchemy import Column, Table, insert, table, select, and_
+from sqlalchemy import Column, Table, insert, table, select, and_, delete
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy.orm import declarative_base
@@ -32,8 +32,10 @@ class DBConnect:
         r = self.connect.execute(s)
         return r.fetchall()
 
-    def remove_item(self, entity: table, ):
-        pass
+    def remove_item(self, entity: table, filters: dict):
+        d = delete(entity).where(**filters)
+        r = self.connect.execute(d)
+        return r.rowcount
 
 
 # region example
