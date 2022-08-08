@@ -1,7 +1,8 @@
 import enum
 from sqlalchemy import Table, Column, Integer, String, ForeignKey, Float
+from database.connect_to_db import DBConnect
 
-from main import db
+db = DBConnect("sqlite:///test.db")
 
 
 class RecipeType(enum.Enum):
@@ -24,6 +25,7 @@ product = Table(
     Column('calories', Float),
     Column('fats', Float),
     Column('carbohydrates', Float),
+    Column('proteins', Float),
 )
 
 recipe = Table(
@@ -48,6 +50,7 @@ recipe_product = Table(
     Column('calories', Float),
     Column('fats', Float),
     Column('carbohydrates', Float),
+    Column('proteins', Float),
     Column('description', String, nullable=False)
 )
 
@@ -58,3 +61,5 @@ element_product = Table(
     Column('product_id', Integer, ForeignKey('product.id'), primary_key=True),
     Column('percents', Float, nullable=False)
 )
+
+db.metadata.create_all(bind=db.engine)

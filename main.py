@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from database.connect_to_db import DBConnect
+from database.db_service import DBService
 
 app = FastAPI()
 
@@ -9,7 +10,6 @@ app = FastAPI()
 async def startup_event():
     pass
 
-db = DBConnect("sqlite:///test.db")
+from database.models import db, RecipeType, recipe, product, recipe_product, element_product
 
-db.metadata.create_all(bind=db.engine)
-
+db_service = DBService(db.connect)
