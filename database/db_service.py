@@ -22,6 +22,9 @@ class DBService:
     def get_all(self, entity: table):
         return self.connect.execute(entity.select()).fetchall()
 
+    def get_or_create(self, filters, entity: table):
+        pass
+
     def add(self, values: dict, entity: table) -> int:
         ins = entity.insert().values(values)
         r = self.connect.execute(ins)

@@ -8,9 +8,7 @@ print(recipe)
 from main import db_service, product
 
 prod_objs = recipe.get('products')
-values = []
 for prod in prod_objs:
-    values.append(dict(name=prod.get('mera')))
-db_service.add_from_list(values=values, entity=product)
+    db_service.get_or_create(dict(name=prod.get('mera')), entity=product)
 
 buf = db_service.get_all(product)
