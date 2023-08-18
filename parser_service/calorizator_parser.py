@@ -1,6 +1,6 @@
 from typing import List
 
-from recipe_parser.recipes_adapter import AbstractRecipeParser
+from parser_service.abstract_recipes_parser import AbstractRecipeParser
 
 
 class Calorizator(AbstractRecipeParser):

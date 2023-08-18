@@ -1,2 +1,0 @@
-from recipe_parser.calorizator import Calorizator
-from recipe_parser.recipes_adapter import AbstractRecipeParser
