@@ -12,7 +12,8 @@ Session = sessionmaker(bind=engine)
 container.wire(modules=["app.routers"])
 container.config.session.from_value(Session())
 
-from app.routers import recipe_router
+from app.routers import product_router, recipe_router
 
 
+app.include_router(product_router)
 app.include_router(recipe_router)

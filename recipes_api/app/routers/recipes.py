@@ -5,7 +5,9 @@ from fastapi import Depends, APIRouter
 
 from app.dependencies import Container
 from app.models.recipe import Recipe
-from app.routers.swagger_models import RecipeDataIn, RecipeData, IngredientDataIn
+from app.routers.swagger_models import SuccessData
+from app.routers.swagger_models.recipes import RecipeDataIn, RecipeData, IngredientDataIn
+from app.constants import RecipeType
 
 recipe_router = APIRouter(
     prefix='/recipes',
@@ -19,9 +21,25 @@ recipe_router = APIRouter(
 )
 
 
+@recipe_router.get('/types', response_model=List[str])
+async def get_all_types_of_recipes():
+    return RecipeType.get_all_types()
+
+
 @recipe_router.get('/{recipe_id}', response_model=RecipeData)
-async def get_recipe_by_id(recipe_id: int, service=Depends(Provide[Container.recipie_service])):
+@inject
+async def get_recipe_by_id(
+        recipe_id: int,
+        service=Depends(Provide[Container.recipie_service])
+):
     result = await service.get_instance_by_id(recipe_id)
+    return result
+
+
+@recipe_router.get('', response_model=List[RecipeData])
+@inject
+async def get_all_recipes(service=Depends(Provide[Container.recipie_service])):
+    result = await service.get_all_instances()
     return result
 
 
@@ -33,4 +51,30 @@ async def create_recipe(
         service=Depends(Provide[Container.recipie_service]),
 ):
     result = await service.create_instance(kwargs=data.dict())
+    if ingredients:
+        await service.add_products_to_recipes(result.id, ingredients)
+    return result
+
+
+@recipe_router.delete('/{recipe_id}', response_model=SuccessData)
+@inject
+async def delete_recipe(
+        recipe_id: int,
+        service=Depends(Provide[Container.recipie_service]),
+):
+    result = await service.delete_instance(recipe_id)
+    return result
+
+
+@recipe_router.put('/{recipe_id}', response_model=RecipeData)
+@inject
+async def update_recipe(
+        recipe_id: int,
+        data: RecipeDataIn,
+        ingredients: List[IngredientDataIn] = None,
+        service=Depends(Provide[Container.recipie_service]),
+):
+    result = await service.update_instance(instance_id=recipe_id, kwargs=data.dict())
+    if ingredients:
+        await service.add_products_to_recipes(result.id, ingredients)
     return result
