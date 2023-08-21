@@ -23,3 +23,6 @@ class RecipeProduct(Base):
     recipe_id = Column(Integer, ForeignKey('recipes.id'), primary_key=True)
     product_id = Column(Integer, ForeignKey('products.id'), primary_key=True)
     amount = Column(Float, nullable=False)
+
+    product = relationship(Product, backref='recipes_products')
+    recipe = relationship(Recipe, backref='recipes_products')

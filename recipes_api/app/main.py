@@ -12,7 +12,7 @@ Session = sessionmaker(bind=engine)
 container.wire(modules=["app.routers"])
 container.config.session.from_value(Session())
 
-from app.routers import product_router, recipe_router
+from app.routers import product_router, recipe_router  # noqa
 
 
 app.include_router(product_router)

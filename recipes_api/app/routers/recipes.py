@@ -4,7 +4,6 @@ from dependency_injector.wiring import inject, Provide
 from fastapi import Depends, APIRouter
 
 from app.dependencies import Container
-from app.models.recipe import Recipe
 from app.routers.swagger_models import SuccessData
 from app.routers.swagger_models.recipes import RecipeDataIn, RecipeData, IngredientDataIn
 from app.constants import RecipeType

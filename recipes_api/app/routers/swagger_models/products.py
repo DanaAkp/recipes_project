@@ -23,4 +23,3 @@ class ProductData(DataBaseModel):
     proteins: Optional[float]
     unit_measure: UnitMeasure
     units_measure_nutrition_facts: int
-
