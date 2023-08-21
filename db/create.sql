@@ -1,0 +1,2 @@
+CREATE DATABASE recipes;
+CREATE DATABASE auth;
