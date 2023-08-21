@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, Enum
 from app.models import Base, metadata
+from app.constants import UnitMeasure
 
 
 class Product(Base):
@@ -11,3 +12,5 @@ class Product(Base):
     fats = Column(Float)
     carbohydrates = Column(Float)
     proteins = Column(Float)
+    unit_measure = Column(Enum(UnitMeasure), nullable=False)
+    units_measure_nutrition_facts = Column(Integer, nullable=False)
