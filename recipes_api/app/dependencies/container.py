@@ -6,6 +6,7 @@ from app.controllers.products_service import ProductService
 from app.controllers.recipes_service import RecipeService
 from app.controllers.elements_service import ElementService
 
+from app.models.product import Product
 from app.models.recipe import Recipe
 
 
@@ -14,5 +15,5 @@ class Container(containers.DeclarativeContainer):
     security: HTTPAuthorizationCredentials = Security(HTTPBearer())
 
     recipie_service = providers.Singleton(RecipeService, session=config.session, model=Recipe)
-    product_service = providers.Singleton(ProductService, session=config.session)
+    product_service = providers.Singleton(ProductService, session=config.session, model=Product)
     element_service = providers.Singleton(ElementService, session=config.session)

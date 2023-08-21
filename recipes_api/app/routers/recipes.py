@@ -77,3 +77,39 @@ async def update_recipe(
     if ingredients:
         await service.add_products_to_recipes(result.id, ingredients)
     return result
+
+
+@recipe_router.post('/{recipe_id}/products', response_model=RecipeData)
+@inject
+async def add_products_to_recipe(
+        recipe_id: int,
+        ingredients: List[IngredientDataIn],
+        service=Depends(Provide[Container.recipie_service]),
+):
+    result = await service.add_products_to_recipes(recipe_id, ingredients)
+    return result
+
+
+@recipe_router.delete('/{recipe_id}/products/{product_id}', response_model=SuccessData)
+@inject
+async def delete_product_from_recipe(
+        recipe_id: int,
+        product_id: int,
+        service=Depends(Provide[Container.recipie_service]),
+):
+    result = await service.delete_product_from_recipe(recipe_id, product_id)
+    return result
+
+
+@recipe_router.patch('/{recipe_id}/products/{product_id}', response_model=SuccessData)
+@inject
+async def change_amount_product_from_recipe(
+        recipe_id: int,
+        product_id: int,
+        amount: float,
+        service=Depends(Provide[Container.recipie_service]),
+):
+    result = await service.change_amount_product(recipe_id, product_id, amount)
+    return result
+
+

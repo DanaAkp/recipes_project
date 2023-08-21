@@ -2,11 +2,11 @@ import logging
 import traceback
 
 from fastapi import HTTPException
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, Session
 
 
 class CrudService:
-    def __init__(self, session, model):
+    def __init__(self, session: Session, model: DeclarativeBase):
         self.model = model
         self.session = session
 
@@ -53,9 +53,9 @@ class CrudService:
     async def get_all_instances(self):
         return self.session.query(self.model).all()
 
-    async def get_or_create(self, model: DeclarativeBase, name: str):
+    async def get_or_create(self, name: str):
         try:
-            if instance := self.session.query(model).filter(model.name == name).one_or_none():
+            if instance := self.session.query(self.model).filter(self.model.name == name).one_or_none():
                 return instance
 
         except Exception as error:

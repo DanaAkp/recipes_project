@@ -10,8 +10,8 @@ class IngredientData(DataBaseModel):
 
 
 class IngredientDataIn(DataBaseModel):
-    product_id: int
-    recipe_id: Optional[int]
+    product_name: str
+    recipe_id: int
     amount: float
 
 
