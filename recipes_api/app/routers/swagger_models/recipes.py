@@ -1,10 +1,7 @@
 from typing import List, Optional
-from pydantic import BaseModel
-
-
-class DataBaseModel(BaseModel):
-    class Config:
-        orm_mode = True
+from pydantic import Field
+from app.constants import RecipeType
+from app.routers.swagger_models import DataBaseModel
 
 
 class IngredientData(DataBaseModel):
@@ -22,9 +19,11 @@ class RecipeData(DataBaseModel):
     id: int
     name: str
     description: str
+    type: Optional[RecipeType]
     ingredients: Optional[List[IngredientData]]
 
 
 class RecipeDataIn(DataBaseModel):
     name: str
     description: str
+    type: RecipeType = Field(default='Салаты')
