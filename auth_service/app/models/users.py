@@ -17,4 +17,4 @@ class User(Base):
 
     # relationship
     role_id = Column(Integer, ForeignKey('role.id'), nullable=False)
-    role = relationship(Role, back_populates='users')
+    roles = relationship(Role, back_populates='users')

@@ -52,10 +52,10 @@ class UserService:
             raise HTTPException(400, 'Failed to create user.')
 
     async def block_user(self, user_id: int, current_user: User) -> dict:
-        pass
+        raise NotImplementedError('Method not implemented.')
 
     async def unblock_user(self, user_id: int, current_user: User) -> dict:
-        pass
+        raise NotImplementedError('Method not implemented.')
 
     async def edit_user(self, user_id: int, email: str, name: str, surname: str, password: str, current_user: User) -> Optional[User]:
         if not (user := self.session.query(User).filter(User.id == user_id).one_or_none()):
@@ -71,6 +71,9 @@ class UserService:
             self.session.rollback()
             logging.error(f'Error: {error}, traceback: {traceback.format_exc()}')
             raise HTTPException(400, 'Failed to create user.')
+
+    async def logout(self, user_id: Union[str, int]) -> dict:
+        raise NotImplementedError('Method not implemented.')
 
     async def login(self, email: str, password: str) -> dict:
         user = self.session.query(User).filter(User.email == email).one_or_none()
@@ -125,3 +128,10 @@ class UserService:
             raise HTTPException(400, 'Your refresh token is expired.')
         except JWTError:
             raise HTTPException(401, 'Invalid refresh token.')
+
+    async def get_all_users(self) -> list:
+        raise NotImplementedError('Method not implemented.')
+
+    async def get_user_by_id(self, user_id: Union[int, str]) -> User:
+        raise NotImplementedError('Method not implemented.')
+

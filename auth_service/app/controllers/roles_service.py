@@ -12,7 +12,8 @@ class RoleService:
         self.permission_service = permission_service
 
     async def add_role_to_user(self, user_id: int, role_id: int) -> dict:
-        pass
+        raise NotImplementedError('Method not implemented.')
 
     async def delete_role_from_user(self, user_id: int, role_id: int) -> dict:
-        pass
+        raise NotImplementedError('Method not implemented.')
+
