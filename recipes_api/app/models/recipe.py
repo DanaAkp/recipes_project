@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 
 from app.models import Base, metadata
 from app.models.product import Product
-from app.constants import RecipeType
+from app.constants import RecipeType, UnitMeasure
 
 
 class Recipe(Base):
@@ -23,6 +23,7 @@ class RecipeProduct(Base):
     recipe_id = Column(Integer, ForeignKey('recipes.id'), primary_key=True)
     product_id = Column(Integer, ForeignKey('products.id'), primary_key=True)
     amount = Column(Float, nullable=False)
+    measure_unit = Column(Enum(UnitMeasure), nullable=False)
 
     product = relationship(Product, backref='recipes_products')
     recipe = relationship(Recipe, backref='recipes_products')
