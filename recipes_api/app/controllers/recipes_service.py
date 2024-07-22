@@ -12,17 +12,19 @@ class RecipeService(CrudService):
     def __init__(self, session, model):
         super().__init__(session=session, model=model)
 
-    async def add_products_to_recipes(self, recipe_id: int, products: List[dict]) -> Optional[Recipe]:
+    async def add_products_to_recipes(self, recipe_id: int, products: List) -> Optional[Recipe]:
         if not (recipe := self.session.query(Recipe).one_or_none()):
             raise HTTPException(404, f'Not found recipe by id {recipe_id}.')
         instances = []
         for product in products:
-            product_id = self.get_or_create(product.get('product_name'))
+            product_id = self.get_or_create(product.product_name)
             instances.append(
                 RecipeProduct(
                     recipe_id=recipe_id,
                     product_id=product_id,
-                    amount=product.get('amount')
+                    amount=product.amount,
+                    measure_unit=product.unit_measure,
+                    units_measure_nutrition_facts=product.units_measure_nutrition_facts,
                 )
             )
         try:

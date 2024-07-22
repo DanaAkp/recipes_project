@@ -14,7 +14,7 @@ class RecipeType(Enum):
 
     @classmethod
     def get_all_types(cls):
-        return [type.value for type in cls]
+        return [type_.value for type_ in cls]
 
 
 class UnitMeasure(Enum):
@@ -23,4 +23,4 @@ class UnitMeasure(Enum):
 
     @classmethod
     def get_all_units(cls):
-        return [type.value for type in cls]
+        return [type_.value for type_ in cls]

@@ -3,29 +3,33 @@ services:
   db-recipes:
     image: postgres:14
     restart: unless-stopped
+    env_file:
+      - .env
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -d $${DATABASE_NAME_RECIPES} -U $${DATABASE_USER_NAME}" ]
+      test: [ "CMD-SHELL", "pg_isready -d recipes -U $${DATABASE_USER_PASSWORD}" ]
       interval: 5s
       timeout: 5s
       retries: 5
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: ${DATABASE_NAME_RECIPES}
+      POSTGRES_DB: recipes
       POSTGRES_USER: ${DATABASE_USER_NAME}
       POSTGRES_PASSWORD: ${DATABASE_USER_PASSWORD}
   db-auth:
     image: postgres:14
     restart: unless-stopped
+    env_file:
+      - .env
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -d $${DATABASE_NAME_AUTH} -U $${DATABASE_USER_NAME}" ]
+      test: [ "CMD-SHELL", "pg_isready -d auth -U $${DATABASE_USER_PASSWORD}" ]
       interval: 5s
       timeout: 5s
       retries: 5
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: ${DATABASE_NAME_AUTH}
+      POSTGRES_DB: auth
       POSTGRES_USER: ${DATABASE_USER_NAME}
       POSTGRES_PASSWORD: ${DATABASE_USER_PASSWORD}
   recipes-api-service:
@@ -37,7 +41,7 @@ services:
     env_file:
       - .env
     ports:
-      - "8080:80"
+      - "8080:8080"
     depends_on:
       db-recipes:
         condition: service_healthy
@@ -48,6 +52,8 @@ services:
     ports:
       - "5001:5001"
     container_name: auth
+    env_file:
+      - .env
     depends_on:
       db-auth:
         condition: service_healthy
